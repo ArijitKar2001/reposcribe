@@ -8,10 +8,11 @@ export const GitHubUrlSchema = z.string().regex(githubUrlRegex, {
   message: "Invalid GitHub repository URL format.",
 });
 
-// Define the OwnerAndRepo schema
-export const OwnerAndRepoSchema = z.object({
-  RepoOwner: z.string().min(1),
-  Repo: z.string().min(1),
+// Define the schema for GithubRepo
+const GithubRepoSchema = z.object({
+  githubUser: z.string(),
+  githubRepo: z.string(),
+  githubUrl: z.string().url(), // Ensuring the URL is valid
 });
 
 // Define CustomReturn schema that accepts a generic type T
@@ -28,3 +29,11 @@ export const CustomReturnSchema = <T>() =>
       error: z.unknown(),
     }),
   ]);
+
+// Define the file holding object
+export const fileDescriptionsSchema = z.record(z.string());
+
+// Define the schema for the headers
+export const headersSchema = z.object({
+  Authorization: z.string().optional(), // Make it optional since the API key may not be defined
+});

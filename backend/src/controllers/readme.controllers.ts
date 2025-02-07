@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { GetProjectData } from "../tools/generate-readme";
 
 // Controller to generate AI-Readme.md
 export const GenerateReadme = async (
@@ -7,8 +8,12 @@ export const GenerateReadme = async (
 ): Promise<void> => {
   try {
     const { githubUrl } = req.body;
+    const headers = {
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY || ""}`,
+    };
+    const project = await GetProjectData(githubUrl, headers);
 
-    res.json({});
+    res.json({ project });
   } catch (error: unknown) {
     if (error instanceof Error) {
       res.status(404).json({
