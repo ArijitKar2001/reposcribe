@@ -9,7 +9,7 @@ export const GitHubUrlSchema = z.string().regex(githubUrlRegex, {
 });
 
 // Define the schema for GithubRepo
-const GithubRepoSchema = z.object({
+export const GithubRepoSchema = z.object({
   githubUser: z.string(),
   githubRepo: z.string(),
   githubUrl: z.string().url(), // Ensuring the URL is valid
@@ -31,9 +31,9 @@ export const CustomReturnSchema = <T>() =>
   ]);
 
 // Define the file holding object
-export const fileDescriptionsSchema = z.record(z.string());
+export const FileDescriptionsSchema = z.record(z.string());
 
 // Define the schema for the headers
-export const headersSchema = z.object({
-  Authorization: z.string().optional(), // Make it optional since the API key may not be defined
+export const HeadersSchema = z.object({
+  Authorization: z.string().min(1, "Authorization token is required"),
 });

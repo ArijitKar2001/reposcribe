@@ -1,8 +1,8 @@
-import { GitHubUrlSchema } from "../types/schema";
-import { CustomReturn, GithubRepo } from "../types/types";
+import { GitHubUrlSchema } from "../types/schema.js";
+import { CustomReturn, GithubRepo } from "../types/types.js";
 
 // Validate url and returned owner and repo and refined url from the provided URL
-export const GetOwnerAndRepo = (url: string): CustomReturn<GithubRepo> => {
+export const GetRepoDetails = (url: string): CustomReturn<GithubRepo> => {
   const githubUrl = GitHubUrlSchema.safeParse(url);
   if (githubUrl.success) {
     const urlParts = url.split("/");
@@ -21,16 +21,3 @@ export const GetOwnerAndRepo = (url: string): CustomReturn<GithubRepo> => {
     return { success: false, error: "Invalid Github URL" };
   }
 };
-
-// Validating and constructing the final URL
-// export const GetRefinedUrl = (url: string): CustomReturn<GitHubUrl> => {
-//   const resOwnerAndRepo = GetOwnerAndRepo(url);
-//   if (resOwnerAndRepo.success) {
-//     return {
-//       success: true,
-//       data: `https://github.com/${resOwnerAndRepo.data.RepoOwner}/${resOwnerAndRepo.data.Repo}`,
-//     };
-//   } else {
-//     return { success: false, error: resOwnerAndRepo.error };
-//   }
-// };

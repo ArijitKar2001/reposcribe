@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FileDescriptions, GithubRepo, Headers } from "../types/types";
+import type { FileDescriptions, GithubRepo, Headers } from "../types/types.js";
 
 export const GetProjectData = async (
   repo: GithubRepo,
@@ -7,9 +7,15 @@ export const GetProjectData = async (
   path = ""
 ) => {
   const { githubUser, githubRepo } = repo;
+  console.log("repo", repo);
+
   const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/${path}`;
+  console.log(apiUrl);
+  console.log(headers);
+
   // Make a GET request to the GitHub API
   const response = await axios.get(apiUrl, { headers });
+  console.log("bye");
 
   // Object to store file paths and their contents
   const fileData: FileDescriptions = {};
