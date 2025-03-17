@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { GetProjectData } from "../tools/generate-readme.js";
+import { GetProjectData } from "../tools/get-details.js";
 import { GetRepoDetails } from "../utils/urls.js";
+import { ExtractFeature, GenerateReadmeAI } from "../tools/generate-file.js";
 
 // Controller to generate AI-Readme.md
 export const GenerateReadme = async (
@@ -9,8 +10,9 @@ export const GenerateReadme = async (
 ): Promise<void> => {
   try {
     const { githublink } = req.body;
-    console.log("git link : ", githublink);
     const resGitDetails = GetRepoDetails(githublink);
+    // console.log(resGitDetails.data);
+
     if (!resGitDetails.success) {
       throw new Error(`${resGitDetails.error}`);
     }
@@ -18,14 +20,14 @@ export const GenerateReadme = async (
     const headers = {
       Authorization: `Bearer ${process.env.GITHUB_API_KEY || ""}`,
     };
-    console.log(headers);
-
-    console.log("controller");
 
     const project = await GetProjectData(resGitDetails.data, headers);
-    console.log("proj");
+    // const featuredProject = await ExtractFeature(project);
+    // console.log(featuredProject);
 
-    res.status(200).json({ project });
+    const readmeFile = await GenerateReadmeAI(project);
+
+    res.status(200).json({ success: true, data: readmeFile });
   } catch (error: unknown) {
     res.json({
       success: false,

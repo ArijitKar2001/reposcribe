@@ -7,15 +7,11 @@ export const GetProjectData = async (
   path = ""
 ) => {
   const { githubUser, githubRepo } = repo;
-  console.log("repo", repo);
 
-  const apiUrl = `https://api.github.com/repos/${githubUser}/${githubRepo}/contents/${path}`;
-  console.log(apiUrl);
-  console.log(headers);
+  const apiUrl = `${process.env.GITHUB_API_URL}/${githubUser}/${githubRepo}/contents/${path}`;
 
   // Make a GET request to the GitHub API
   const response = await axios.get(apiUrl, { headers });
-  console.log("bye");
 
   // Object to store file paths and their contents
   const fileData: FileDescriptions = {};
