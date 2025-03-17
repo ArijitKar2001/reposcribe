@@ -89,7 +89,7 @@ Follow these steps to set up the project locally:
 4. **Start the backend server**:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 5. **Install frontend dependencies**:
